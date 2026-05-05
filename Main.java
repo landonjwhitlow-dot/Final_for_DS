@@ -13,7 +13,12 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
+
         TaskManager manager = new TaskManager();
+
+        // LOAD saved data at startup
+        manager.loadFromFile();
+
         Scanner scanner = new Scanner(System.in);
 
         boolean running = true;
@@ -34,7 +39,7 @@ public class Main {
             String choice = scanner.nextLine();
 
             if (choice.equals("1")) {
-                // Add a new assignment
+
                 System.out.print("Title: ");
                 String title = scanner.nextLine();
 
@@ -47,7 +52,7 @@ public class Main {
                 manager.addTask(title, course, dueDate);
 
             } else if (choice.equals("2")) {
-                // Remove an assignment
+
                 System.out.print("Title to remove: ");
                 String title = scanner.nextLine();
                 manager.removeTask(title);
@@ -66,19 +71,22 @@ public class Main {
                     System.out.println("(no assignments yet)");
                 } else {
                     System.out.println();
-                    System.out.println("--- Assignments (earliest due first = highest priority) ---");
+                    System.out.println("--- Assignments (earliest due first) ---");
                     for (int i = 0; i < sorted.length; i++) {
-                        System.out.println((i + 1) + ". " + sorted[i].toString());
+                        System.out.println((i + 1) + ". " + sorted[i]);
                     }
                 }
 
             } else if (choice.equals("5")) {
 
+                // SAVE before exiting
+                manager.saveToFile();
+
                 running = false;
                 System.out.println("Goodbye! Happy studying!");
 
             } else {
-                System.out.println("Invalid choice. Please pick 1-5.");
+                System.out.println("Invalid choice.");
             }
         }
 
